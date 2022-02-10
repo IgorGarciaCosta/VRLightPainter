@@ -27,7 +27,7 @@ public:
 //
 //public:	
 //	// Called every frame
-//	virtual void Tick(float DeltaTime) override;
+	virtual void Tick(float DeltaTime) override;
 
 private:
 
@@ -43,4 +43,7 @@ private:
 		UMotionControllerComponent* RightController;
 	UPROPERTY(EditAnywhere)
 		TSubclassOf<AStroke> StrokeClass;
+
+	//state
+	AStroke* CurrentStroke;
 };

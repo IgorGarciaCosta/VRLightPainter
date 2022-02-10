@@ -21,12 +21,13 @@ AHandController::AHandController()
 
 void AHandController::TriggerPressed()
 {
-	AStroke* Stroke = GetWorld()->SpawnActor<AStroke>(StrokeClass);
-	Stroke->SetActorLocation(GetActorLocation());
+	CurrentStroke = GetWorld()->SpawnActor<AStroke>(StrokeClass);
+	CurrentStroke->SetActorLocation(GetActorLocation());
 }
 
 void AHandController::TriggerReleased()
 {
+	CurrentStroke = nullptr;
 }
 
 //// Called when the game starts or when spawned
@@ -36,11 +37,14 @@ void AHandController::BeginPlay()
 	Super::BeginPlay();
 	
 }
-//
-//// Called every frame
-//void AHandController::Tick(float DeltaTime)
-//{
-//	Super::Tick(DeltaTime);
-//
-//}
+
+// Called every frame
+void AHandController::Tick(float DeltaTime)
+{
+	Super::Tick(DeltaTime);
+	if (CurrentStroke) {
+		CurrentStroke->Update(GetActorLocation());
+
+	}
+}
 
