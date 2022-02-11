@@ -5,6 +5,7 @@
 #include "Components/SceneComponent.h"
 #include "Camera/CameraComponent.h"
 #include "HandController.h"
+#include "Engine/Engine.h"
 #include "PainterSaveGame.h"
 
 // Sets default values
@@ -18,6 +19,7 @@ AVRPawn::AVRPawn()
 	Camera = CreateDefaultSubobject<UCameraComponent>("Camera");
 	Camera->SetupAttachment(VRRoot);
 }
+
 
 // Called when the game starts or when spawned
 void AVRPawn::BeginPlay()
@@ -41,8 +43,31 @@ void AVRPawn::SetupPlayerInputComponent(UInputComponent* PlayerInputComponent)
 	PlayerInputComponent->BindAction(TEXT("LeftTrigger"), EInputEvent::IE_Pressed, this, &AVRPawn::LeftTriggerPressed);
 	PlayerInputComponent->BindAction(TEXT("LeftTrigger"), EInputEvent::IE_Released, this, &AVRPawn::LeftTriggerReleased);
 
+	PlayerInputComponent->BindAction(TEXT("Save"), EInputEvent::IE_Released, this, &AVRPawn::Save);
+	PlayerInputComponent->BindAction(TEXT("Load"), EInputEvent::IE_Released, this, &AVRPawn::Load);
 
 }
+
+void AVRPawn::Save()
+{
+	UPainterSaveGame* Painting = UPainterSaveGame::Create();
+	Painting->SetState("Hello test");
+	Painting->Save();
+
+}
+void AVRPawn::Load()
+{
+	UPainterSaveGame* Painting = UPainterSaveGame::Load();
+	if (Painting) {
+		GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Yellow, FString::Printf(TEXT("------------------------------------------------------PAINTING STATE: %s"), *Painting->GetState()));
+
+	}
+	else {
+		GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Yellow,"---------------------------------------------------NOT FOUND");
+
+	}
+}
+
 
 
 

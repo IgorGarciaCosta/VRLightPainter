@@ -19,6 +19,10 @@ public:
 	void LeftTriggerPressed() { if (LeftHandController) LeftHandController->TriggerPressed(); }
 	void LeftTriggerReleased() { if (LeftHandController)LeftHandController->TriggerReleased();}
 
+	void Save();
+	void Load();
+
+
 protected:
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
