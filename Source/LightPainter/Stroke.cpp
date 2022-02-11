@@ -11,6 +11,9 @@ AStroke::AStroke()
 	PrimaryActorTick.bCanEverTick = true;
 	Root = CreateDefaultSubobject<USceneComponent>("Root");
 	SetRootComponent(Root);
+
+	StrokeMeshes = CreateDefaultSubobject<UInstancedStaticMeshComponent>("StrokeMeshes");
+	StrokeMeshes->SetupAttachment(Root);
 }
 
 
@@ -19,24 +22,28 @@ void AStroke::Update(FVector CursorLocation)
 {
 	//create spline mesh
 	//update endpoints
-	USplineMeshComponent* Spline = CreateSplineMesh();
+	/*USplineMeshComponent* Spline = CreateSplineMesh();
 	FVector StartPos  = GetActorTransform().InverseTransformPosition(CursorLocation);
-	FVector EndPos = GetActorTransform().InverseTransformPosition(PreviousCursorLoc);
+	FVector EndPos = GetActorTransform().InverseTransformPosition(PreviousCursorLoc);*/
+	FTransform NewStrokeTransform;
+	FVector LocalCursorLoc = GetTransform().InverseTransformPosition(CursorLocation);
+	NewStrokeTransform.SetLocation(LocalCursorLoc);
+	StrokeMeshes->AddInstance(NewStrokeTransform);
 
-	Spline->SetStartAndEnd(StartPos, FVector::ZeroVector, EndPos, FVector::ZeroVector);
+	//Spline->SetStartAndEnd(StartPos, FVector::ZeroVector, EndPos, FVector::ZeroVector);
 
 	PreviousCursorLoc = CursorLocation;
 }
 
-USplineMeshComponent* AStroke::CreateSplineMesh() {
-	USplineMeshComponent* NewSpline = NewObject< USplineMeshComponent>(this);
-	NewSpline->SetMobility(EComponentMobility::Movable);
-	NewSpline->AttachToComponent(Root, FAttachmentTransformRules::SnapToTargetIncludingScale);
-	NewSpline->SetStaticMesh(SplineMesh);
-	NewSpline->SetMaterial(0, SplineMaterial);
-	NewSpline->RegisterComponent();
-
-	return NewSpline;
-}
+//USplineMeshComponent* AStroke::CreateSplineMesh() {
+//	USplineMeshComponent* NewSpline = NewObject< USplineMeshComponent>(this);
+//	NewSpline->SetMobility(EComponentMobility::Movable);
+//	NewSpline->AttachToComponent(Root, FAttachmentTransformRules::SnapToTargetIncludingScale);
+//	NewSpline->SetStaticMesh(SplineMesh);
+//	NewSpline->SetMaterial(0, SplineMaterial);
+//	NewSpline->RegisterComponent();
+//
+//	return NewSpline;
+//}
 
 
