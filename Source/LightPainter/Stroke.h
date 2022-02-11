@@ -19,19 +19,22 @@ public:
 	void Update(FVector CursorLocation);
 
 private:
+	FTransform GetNextSegmentTransform(FVector CurrentLocation) const;
 	
-	/*class USplineMeshComponent* CreateSplineMesh();*/
+
+	FVector GetNextSegmentScale(FVector CurrentLocation) const;
+
+	FQuat GetNextSegmentRotation(FVector CurrentLocation) const;
+
+	FVector GetNextSegmenttLocation(FVector CurrentLocation) const;
+
+
 
 	//components
 	UPROPERTY(VisibleAnywhere)
 		USceneComponent* Root;
 
-	////config
-	//UPROPERTY(EditDefaultsOnly)
-	//	UStaticMesh* SplineMesh;
 
-	//UPROPERTY(EditDefaultsOnly)
-	//	UMaterialInterface* SplineMaterial;
 	UPROPERTY(VisibleAnywhere)
 		UInstancedStaticMeshComponent* StrokeMeshes;
 
