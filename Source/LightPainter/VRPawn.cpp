@@ -5,6 +5,7 @@
 #include "Components/SceneComponent.h"
 #include "Camera/CameraComponent.h"
 #include "HandController.h"
+#include "PainterSaveGame.h"
 
 // Sets default values
 AVRPawn::AVRPawn()
@@ -23,12 +24,6 @@ void AVRPawn::BeginPlay()
 {
 	Super::BeginPlay();
 
-	/*if (HandControllerClass) {
-		LeftHandController = GetWorld()->SpawnActor<AHandController>(HandControllerClass);
-		LeftHandController->AttachToComponent(GetRootComponent(), FAttachmentTransformRules::SnapToTargetIncludingScale);
-	}*/
-	
-
 	LeftHandController = GetWorld()->SpawnActor<AHandController>(HandControllerClass);
 	if (LeftHandController != nullptr)
 	{
@@ -36,6 +31,8 @@ void AVRPawn::BeginPlay()
 		LeftHandController->SetHand(EControllerHand::Left);
 		LeftHandController->SetOwner(this); // FIX for Unreal version 4.22
 	}
+	UPainterSaveGame* Painting =UPainterSaveGame::Create();
+	Painting->Save();
 }
 
 void AVRPawn::SetupPlayerInputComponent(UInputComponent* PlayerInputComponent)
