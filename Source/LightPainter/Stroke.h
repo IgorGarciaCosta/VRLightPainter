@@ -5,6 +5,7 @@
 #include "CoreMinimal.h"
 #include "GameFramework/Actor.h"
 #include "Components/InstancedStaticMeshComponent.h"
+#include "PainterSaveGame.h"
 #include "Stroke.generated.h"
 
 UCLASS()
@@ -17,6 +18,9 @@ public:
 	AStroke();
 
 	void Update(FVector CursorLocation);
+
+	FStrokeState SerializaToStruct() const;
+	static AStroke* SpawnAndDeserializeFromStruct(UWorld* World, const FStrokeState& StrokeState);
 
 private:
 	FTransform GetNextSegmentTransform(FVector CurrentLocation) const;
@@ -42,6 +46,8 @@ private:
 	UPROPERTY(VisibleAnywhere)
 		UInstancedStaticMeshComponent* JointMeshes;
 
+
 	//state
 	FVector PreviousCursorLoc;
+	TArray<FVector>ControlPoints;
 };

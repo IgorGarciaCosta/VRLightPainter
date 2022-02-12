@@ -4,7 +4,7 @@
 #include "VRPawn.h"
 #include "Components/SceneComponent.h"
 #include "Camera/CameraComponent.h"
-#include "HandController.h"
+#include "PaintBrushHandController.h"
 #include "Engine/Engine.h"
 #include "PainterSaveGame.h"
 
@@ -26,7 +26,7 @@ void AVRPawn::BeginPlay()
 {
 	Super::BeginPlay();
 
-	LeftHandController = GetWorld()->SpawnActor<AHandController>(HandControllerClass);
+	LeftHandController = GetWorld()->SpawnActor<AHandControllerBase>(HandControllerClass);
 	if (LeftHandController != nullptr)
 	{
 		LeftHandController->AttachToComponent(VRRoot, FAttachmentTransformRules::KeepRelativeTransform);
@@ -52,6 +52,7 @@ void AVRPawn::Save()
 {
 	UPainterSaveGame* Painting = UPainterSaveGame::Create();
 	Painting->SetState("Hello test");
+	Painting->SerializeFromWorld(GetWorld());
 	Painting->Save();
 
 }
@@ -59,6 +60,7 @@ void AVRPawn::Load()
 {
 	UPainterSaveGame* Painting = UPainterSaveGame::Load();
 	if (Painting) {
+		Painting->DesirializeToWorld(GetWorld());
 		GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Yellow, FString::Printf(TEXT("------------------------------------------------------PAINTING STATE: %s"), *Painting->GetState()));
 
 	}

@@ -4,7 +4,7 @@
 
 #include "CoreMinimal.h"
 #include "GameFramework/Pawn.h"
-#include "HandController.h"
+#include "HandControllerBase.h"
 #include "VRPawn.generated.h"
 
 UCLASS()
@@ -33,7 +33,7 @@ private:
 
 	//xonfig
 	UPROPERTY(EditDefaultsOnly)
-		TSubclassOf<class AHandController> HandControllerClass;
+		TSubclassOf<class AHandControllerBase> HandControllerClass;
 
 	//components
 	UPROPERTY(VisibleAnywhere)
@@ -44,5 +44,5 @@ private:
 
 	//references
 	UPROPERTY()
-		AHandController* LeftHandController;
+		AHandControllerBase* LeftHandController;
 };

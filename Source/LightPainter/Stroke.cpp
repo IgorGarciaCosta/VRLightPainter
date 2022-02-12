@@ -2,6 +2,7 @@
 
 
 #include "Stroke.h"
+#include "Engine/World.h"
 #include "Components/SplineMeshComponent.h"
 
 // Sets default values
@@ -23,7 +24,7 @@ AStroke::AStroke()
 
 void AStroke::Update(FVector CursorLocation)
 {
-
+	ControlPoints.Add(CursorLocation);
 	if (PreviousCursorLoc.IsNearlyZero()) {
 		PreviousCursorLoc = CursorLocation;
 		JointMeshes->AddInstance(GetNextJointTransform(CursorLocation));
@@ -35,6 +36,23 @@ void AStroke::Update(FVector CursorLocation)
 	JointMeshes->AddInstance(GetNextJointTransform(CursorLocation));
 
 	PreviousCursorLoc = CursorLocation;
+}
+
+FStrokeState AStroke::SerializaToStruct() const
+{
+	FStrokeState StrokeState;
+	StrokeState.Class = GetClass();
+	StrokeState.ControlPoints = ControlPoints;
+	return StrokeState;
+}
+
+AStroke* AStroke::SpawnAndDeserializeFromStruct(UWorld* World, const FStrokeState& StrokeState)
+{
+	AStroke* Stroke = World->SpawnActor<AStroke>(StrokeState.Class);
+	for (FVector ControlPoints : StrokeState.ControlPoints) {
+		Stroke->Update(ControlPoints);
+	}
+	return Stroke;
 }
 
 FTransform AStroke::GetNextSegmentTransform(FVector CurrentLocation) const

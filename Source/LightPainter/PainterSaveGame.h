@@ -6,6 +6,17 @@
 #include "GameFramework/SaveGame.h"
 #include "PainterSaveGame.generated.h"
 
+
+USTRUCT()
+struct FStrokeState {
+	GENERATED_BODY()
+
+	UPROPERTY()
+	TSubclassOf<class AStroke> Class;
+
+	UPROPERTY()
+		TArray<FVector> ControlPoints;
+};
 /**
  * 
  */
@@ -21,9 +32,17 @@ public:
 	static UPainterSaveGame* Load();
 	void SetState(FString NewState) { State = NewState; };
 	FString GetState() const { return State; };
+
+	void SerializeFromWorld(UWorld* World);
+	void DesirializeToWorld(UWorld* World);
+	void ClearWorld(UWorld* World);
 private:
 	//state
 	UPROPERTY()
 		FString State;
+
+	UPROPERTY()
+		TArray<FStrokeState> Strokes;
+
 	
 };

@@ -4,22 +4,22 @@
 
 #include "CoreMinimal.h"
 #include "GameFramework/Actor.h"
-#include "MotionControllerComponent.h"
 #include "Stroke.h"
-#include "HandController.generated.h"
+#include "HandControllerBase.h"
+#include "PaintBrushHandController.generated.h"
 
 UCLASS()
-class LIGHTPAINTER_API AHandController : public AActor
+class LIGHTPAINTER_API APaintBrushHandController : public AHandControllerBase
 {
 	GENERATED_BODY()
 	
 public:	
 	// Sets default values for this actor's properties
-	AHandController();
-	void SetHand(EControllerHand Hand) { MotionController->SetTrackingSource(Hand); }
+	APaintBrushHandController();
+	void SetHand(EControllerHand Hand) override { MotionController->SetTrackingSource(Hand); }
 
-	void TriggerPressed();
-	void TriggerReleased();
+	void TriggerPressed() override;
+	void TriggerReleased() override;
 
 //protected:
 //	// Called when the game starts or when spawned
@@ -32,15 +32,10 @@ public:
 private:
 
 	UPROPERTY(EditDefaultsOnly)
-		TSubclassOf<class AHandController> HandControllerClass;
+		TSubclassOf<class APaintBrushHandController> HandControllerClass;
 
 	//components
-	UPROPERTY(VisibleAnywhere)
-		UMotionControllerComponent* MotionController;
-	UPROPERTY(VisibleAnywhere)
-		UMotionControllerComponent* LeftController;
-	UPROPERTY(VisibleAnywhere)
-		UMotionControllerComponent* RightController;
+	
 	UPROPERTY(EditAnywhere)
 		TSubclassOf<AStroke> StrokeClass;
 
