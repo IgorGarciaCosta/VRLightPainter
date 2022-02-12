@@ -21,7 +21,7 @@ public:
 	virtual void TriggerPressed() {};
 	virtual void TriggerReleased() {};
 	virtual void SetHand(EControllerHand Hand) {};
-	UPROPERTY(VisibleAnywhere)
+	UPROPERTY(EditAnywhere)
 		UMotionControllerComponent* MotionController;
 
 };
