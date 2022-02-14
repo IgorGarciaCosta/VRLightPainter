@@ -26,6 +26,12 @@ void AVRPawn::BeginPlay()
 {
 	Super::BeginPlay();
 
+	UPainterSaveGame* Painting = UPainterSaveGame::Create();
+	if (Painting && Painting->Save()) {
+		
+		CurrentSlotName = Painting->GetSlotName();
+	}
+
 	LeftHandController = GetWorld()->SpawnActor<AHandControllerBase>(HandControllerClass);
 	if (LeftHandController != nullptr)
 	{
@@ -33,8 +39,8 @@ void AVRPawn::BeginPlay()
 		LeftHandController->SetHand(EControllerHand::Left);
 		LeftHandController->SetOwner(this); // FIX for Unreal version 4.22
 	}
-	UPainterSaveGame* Painting =UPainterSaveGame::Create();
-	Painting->Save();
+	/*UPainterSaveGame* Painting =UPainterSaveGame::Create();
+	Painting->Save();*/
 }
 
 void AVRPawn::SetupPlayerInputComponent(UInputComponent* PlayerInputComponent)
@@ -50,15 +56,19 @@ void AVRPawn::SetupPlayerInputComponent(UInputComponent* PlayerInputComponent)
 
 void AVRPawn::Save()
 {
-	UPainterSaveGame* Painting = UPainterSaveGame::Create();
-	Painting->SetState("Hello test");
-	Painting->SerializeFromWorld(GetWorld());
-	Painting->Save();
+	UPainterSaveGame* Painting = UPainterSaveGame::Load(CurrentSlotName);
+
+	if (Painting) {
+		Painting->SetState("Hello test");
+		Painting->SerializeFromWorld(GetWorld());
+		Painting->Save();
+	}
+	
 
 }
 void AVRPawn::Load()
 {
-	UPainterSaveGame* Painting = UPainterSaveGame::Load();
+	UPainterSaveGame* Painting = UPainterSaveGame::Load(CurrentSlotName);
 	if (Painting) {
 		Painting->DesirializeToWorld(GetWorld());
 		GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Yellow, FString::Printf(TEXT("------------------------------------------------------PAINTING STATE: %s"), *Painting->GetState()));

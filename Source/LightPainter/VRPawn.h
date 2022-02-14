@@ -31,7 +31,7 @@ private:
 
 	
 
-	//xonfig
+	//config
 	UPROPERTY(EditDefaultsOnly)
 		TSubclassOf<class AHandControllerBase> HandControllerClass;
 
@@ -45,4 +45,7 @@ private:
 	//references
 	UPROPERTY()
 		AHandControllerBase* LeftHandController;
+
+	//state
+	FString CurrentSlotName;
 };
