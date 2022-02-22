@@ -5,14 +5,14 @@
 #include "Engine/Engine.h"
 #include "Components/SizeBox.h"
 
-void UPaintingGrid::AddPainting()
+void UPaintingGrid::AddPainting(int32 PaintingIndex)
 {
 	if (!PaintingGrid) return;
 	//GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Blue, FString::Printf(TEXT("												GRID NAME: %s"), *PaintingGrid->GetName()));
 	UUserWidget* NewWidget = CreateWidget<UUserWidget>(GetWorld(), GridCardClass);
 	if (!NewWidget) return;
 
-	USizeBox* CardContrainer = Cast<USizeBox>(PaintingGrid->GetChildAt(0));
+	USizeBox* CardContrainer = Cast<USizeBox>(PaintingGrid->GetChildAt(PaintingIndex));
 	if (!CardContrainer) return;
 	CardContrainer->AddChild(NewWidget);
 

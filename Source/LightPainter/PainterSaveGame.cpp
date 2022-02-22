@@ -24,10 +24,7 @@ UPainterSaveGame* UPainterSaveGame::Create()
 
 bool UPainterSaveGame::Save()
 {
-    for (FString Slot_Name : UPainterSaveGameIndex::Load()->GetSlotNames()) {
-        GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Red, FString::Printf(TEXT("Paintign name: %s"), *Slot_Name));
-        SlotName = Slot_Name;
-    }
+ 
 
     return UGameplayStatics::SaveGameToSlot(this, SlotName, 0);
     
