@@ -15,7 +15,8 @@ class LIGHTPAINTER_API UPaintingGridCard : public UUserWidget
 {
 	GENERATED_BODY()
 
-
+public:
+	void SetPaintingName(FString PaintingName);
 
 protected:
 	UPROPERTY(BlueprintReadonly, VisibleAnywhere, meta = (BindWidget))
