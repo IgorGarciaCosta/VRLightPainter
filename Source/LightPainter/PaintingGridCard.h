@@ -5,6 +5,7 @@
 #include "CoreMinimal.h"
 #include "Blueprint/UserWidget.h"
 #include "Components/TextBlock.h"
+#include "Components/Button.h"
 #include "PaintingGridCard.generated.h"
 
 /**
@@ -21,5 +22,17 @@ public:
 protected:
 	UPROPERTY(BlueprintReadonly, VisibleAnywhere, meta = (BindWidget))
 		UTextBlock* SlotName;
+
+	UPROPERTY(BlueprintReadonly, VisibleAnywhere, meta = (BindWidget))
+		UButton* CardButton;
+
+
+private:
+	UFUNCTION()
+		void CardButtonClicked();
+
+
+	//state
+	FString PaintingName;
 	
 };
