@@ -45,6 +45,4 @@ private:
 	UPROPERTY()
 		AHandControllerBase* LeftHandController;
 
-	//state
-	FString CurrentSlotName;
 };
