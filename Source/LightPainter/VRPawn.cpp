@@ -7,6 +7,10 @@
 #include "PaintBrushHandController.h"
 #include "Engine/Engine.h"
 #include "PainterSaveGame.h"
+#include "PaintingGameMode.h"
+#include "Kismet/GameplayStatics.h"
+
+
 
 // Sets default values
 AVRPawn::AVRPawn()
@@ -55,14 +59,12 @@ void AVRPawn::SetupPlayerInputComponent(UInputComponent* PlayerInputComponent)
 
 void AVRPawn::Save()
 {
-	UPainterSaveGame* Painting = UPainterSaveGame::Load(CurrentSlotName);
+	auto GameMode = Cast<APaintingGameMode>(GetWorld()->GetAuthGameMode());
+	if (!GameMode) return;
 
-	if (Painting) {
-		Painting->SetState("Hello test");
-		Painting->SerializeFromWorld(GetWorld());
-		Painting->Save();
-	}
-	
+	GameMode->Save();
+	UGameplayStatics::OpenLevel(GetWorld(), TEXT("WidgetMap"));
+
 
 }
 

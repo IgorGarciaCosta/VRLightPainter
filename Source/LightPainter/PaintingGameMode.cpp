@@ -17,20 +17,33 @@ void APaintingGameMode::InitGame(const FString& MapName, const FString& Options,
 
 }
 
-void APaintingGameMode::BeginPlay()
+void APaintingGameMode::Save()
 {
-	Super::BeginPlay();
+	UPainterSaveGame* Painting = UPainterSaveGame::Load(SlotName);
+	if (Painting) {
+		Painting->SerializeFromWorld(GetWorld());
+		Painting->Save();
+	}
+}
 
+void APaintingGameMode::Load()
+{
 	UPainterSaveGame* Painting = UPainterSaveGame::Load(SlotName);
 	if (Painting) {
 		Painting->DesirializeToWorld(GetWorld());
 		GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Yellow, FString::Printf(TEXT("------------------------------------------------------PAINTING STATE: %s"), *Painting->GetState()));
-		UStereoLayerFunctionLibrary::HideSplashScreen();
 	}
 	else {
 		GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Yellow, FString::Printf(TEXT("------------------------------------------------------GAME SLOT NOT FOUND: %s"), *SlotName));
 
 	}
+}
 
+void APaintingGameMode::BeginPlay()
+{
+	Super::BeginPlay();
+
+	Load();
+	UStereoLayerFunctionLibrary::HideSplashScreen();
 
 }
