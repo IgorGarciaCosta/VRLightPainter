@@ -19,10 +19,15 @@ bool UActionBar::Initialize()
 void UActionBar::AddBtnClicked()
 {
 	GEngine->AddOnScreenDebugMessage(-1, 10.f, FColor::Green, "------------------ADDBTN CLICKED");
+	if (ParentPicker) {
+		ParentPicker->AddPainting();
+	}
 }
 
 void UActionBar::DeleteBtnClicked()
 {
 	GEngine->AddOnScreenDebugMessage(-1, 10.f, FColor::Green, "------------------DELETEBTN CLICKED");
-
+	if (ParentPicker) {
+		ParentPicker->ToggleDeleteMode();
+	}
 }

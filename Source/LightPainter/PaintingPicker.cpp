@@ -3,6 +3,9 @@
 
 #include "PaintingPicker.h"
 #include "PaintingGrid.h"
+#include "ActionBar.h"
+#include "Engine/Engine.h"
+#include "PainterSaveGame.h"
 #include "PainterSaveGameIndex.h"
 
 // Sets default values
@@ -20,13 +23,37 @@ APaintingPicker::APaintingPicker()
 	ActionBar->SetupAttachment(GetRootComponent());
 }
 
+void APaintingPicker::AddPainting()
+{
+	GEngine->AddOnScreenDebugMessage(-1, 10.f, FColor::Blue, "------------------AddPainting");
+	UPainterSaveGame::Create();
+
+	RefreshSlots();
+}
+
+void APaintingPicker::ToggleDeleteMode()
+{
+	GEngine->AddOnScreenDebugMessage(-1, 10.f, FColor::Blue, "------------------ToggleDeleteMode");
+
+}
+
 // Called when the game starts or when spawned
 void APaintingPicker::BeginPlay()
 {
 	Super::BeginPlay();
 
+	UActionBar* ActionBardWidget = Cast<UActionBar>(ActionBar->GetUserWidgetObject());
+	if (ActionBardWidget) {
+		ActionBardWidget->SetParentPicker(this);
+	}
+	RefreshSlots();
+}
+
+void APaintingPicker::RefreshSlots()
+{
 	UPaintingGrid* PaintingGridWidget = Cast<UPaintingGrid>(PaintingGrid->GetUserWidgetObject());
 	if (!PaintingGridWidget) return;
+
 	int32 Index = 0;
 
 	for (FString Slot_Name : UPainterSaveGameIndex::Load()->GetSlotNames()) {
