@@ -19,3 +19,12 @@ void UPaintingGrid::AddPainting(int32 PaintingIndex, FString PaintingName)
 	CardContrainer->AddChild(NewWidget);
 
 }
+
+void UPaintingGrid::ClearPaintings()
+{
+	for (int32 i = 0; i < PaintingGrid->GetChildrenCount(); i++) {
+		USizeBox* CardContrainer = Cast<USizeBox>(PaintingGrid->GetChildAt(i));
+		if (!CardContrainer) continue;
+		CardContrainer->ClearChildren();
+	}
+}
