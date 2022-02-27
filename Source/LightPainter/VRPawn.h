@@ -20,7 +20,6 @@ public:
 	void LeftTriggerReleased() { if (LeftHandController)LeftHandController->TriggerReleased();}
 
 	void Save();
-	void Load();
 
 
 protected:

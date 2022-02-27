@@ -50,7 +50,6 @@ void AVRPawn::SetupPlayerInputComponent(UInputComponent* PlayerInputComponent)
 	PlayerInputComponent->BindAction(TEXT("LeftTrigger"), EInputEvent::IE_Released, this, &AVRPawn::LeftTriggerReleased);
 
 	PlayerInputComponent->BindAction(TEXT("Save"), EInputEvent::IE_Released, this, &AVRPawn::Save);
-	PlayerInputComponent->BindAction(TEXT("Load"), EInputEvent::IE_Released, this, &AVRPawn::Load);
 
 }
 
@@ -66,19 +65,7 @@ void AVRPawn::Save()
 	
 
 }
-void AVRPawn::Load()
-{
-	UPainterSaveGame* Painting = UPainterSaveGame::Load(CurrentSlotName);
-	if (Painting) {
-		Painting->DesirializeToWorld(GetWorld());
-		GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Yellow, FString::Printf(TEXT("------------------------------------------------------PAINTING STATE: %s"), *Painting->GetState()));
 
-	}
-	else {
-		GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Yellow,"---------------------------------------------------NOT FOUND");
-
-	}
-}
 
 
 
