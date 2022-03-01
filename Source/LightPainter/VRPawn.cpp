@@ -31,13 +31,21 @@ void AVRPawn::BeginPlay()
 	Super::BeginPlay();
 
 	
+	LeftHandController = GetWorld()->SpawnActor<AHandControllerBase>(LeftHandControllerClass);
+	RightHandController = GetWorld()->SpawnActor<AHandControllerBase>(RightHandControllerClass);
 
-	LeftHandController = GetWorld()->SpawnActor<AHandControllerBase>(HandControllerClass);
 	if (LeftHandController != nullptr)
 	{
 		LeftHandController->AttachToComponent(VRRoot, FAttachmentTransformRules::KeepRelativeTransform);
 		LeftHandController->SetHand(EControllerHand::Left);
-		LeftHandController->SetOwner(this); // FIX for Unreal version 4.22
+		LeftHandController->SetOwner(this); // FIX for Unreal version 4.22 and above
+	}
+
+	if (RightHandController != nullptr)
+	{
+		RightHandController->AttachToComponent(VRRoot, FAttachmentTransformRules::KeepRelativeTransform);
+		RightHandController->SetHand(EControllerHand::Right);
+		RightHandController->SetOwner(this); // FIX for Unreal version 4.22  and above
 	}
 	/*UPainterSaveGame* Painting =UPainterSaveGame::Create();
 	Painting->Save();*/

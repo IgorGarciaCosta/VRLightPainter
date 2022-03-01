@@ -32,7 +32,9 @@ private:
 
 	//config
 	UPROPERTY(EditDefaultsOnly)
-		TSubclassOf<class AHandControllerBase> HandControllerClass;
+		TSubclassOf<class AHandControllerBase> LeftHandControllerClass;
+	UPROPERTY(EditDefaultsOnly)
+		TSubclassOf<class AHandControllerBase> RightHandControllerClass;
 
 	//components
 	UPROPERTY(VisibleAnywhere)
@@ -44,5 +46,8 @@ private:
 	//references
 	UPROPERTY()
 		AHandControllerBase* LeftHandController;
+
+	UPROPERTY()
+		AHandControllerBase* RightHandController;
 
 };
