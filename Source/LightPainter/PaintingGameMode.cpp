@@ -33,7 +33,6 @@ void APaintingGameMode::SaveAndQuit()
 
 	GameMode->Save();*/
 	Save();
-	WorldInfo.Game.AccessControl.ClearAuthDelegates(true);
 	UGameplayStatics::OpenLevel(GetWorld(), TEXT("WidgetMap"));
 
 }
