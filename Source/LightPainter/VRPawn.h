@@ -19,8 +19,6 @@ public:
 	void LeftTriggerPressed() { if (LeftHandController) LeftHandController->TriggerPressed(); }
 	void LeftTriggerReleased() { if (LeftHandController)LeftHandController->TriggerReleased();}
 
-	void Save();
-
 
 protected:
 	// Called when the game starts or when spawned

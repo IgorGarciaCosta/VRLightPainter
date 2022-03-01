@@ -18,6 +18,8 @@ public:
 	void InitGame(const FString& MapName, const FString& Options, FString& ErrorMessage) override;
 
 	void Save();
+	UFUNCTION(BlueprintCallable)
+		void SaveAndQuit();
 	void Load();
 
 protected:

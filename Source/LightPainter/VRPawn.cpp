@@ -57,20 +57,10 @@ void AVRPawn::SetupPlayerInputComponent(UInputComponent* PlayerInputComponent)
 	PlayerInputComponent->BindAction(TEXT("LeftTrigger"), EInputEvent::IE_Pressed, this, &AVRPawn::LeftTriggerPressed);
 	PlayerInputComponent->BindAction(TEXT("LeftTrigger"), EInputEvent::IE_Released, this, &AVRPawn::LeftTriggerReleased);
 
-	PlayerInputComponent->BindAction(TEXT("Save"), EInputEvent::IE_Released, this, &AVRPawn::Save);
 
 }
 
-void AVRPawn::Save()
-{
-	auto GameMode = Cast<APaintingGameMode>(GetWorld()->GetAuthGameMode());
-	if (!GameMode) return;
 
-	GameMode->Save();
-	UGameplayStatics::OpenLevel(GetWorld(), TEXT("WidgetMap"));
-
-
-}
 
 
 

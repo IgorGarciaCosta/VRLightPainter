@@ -26,6 +26,18 @@ void APaintingGameMode::Save()
 	}
 }
 
+void APaintingGameMode::SaveAndQuit()
+{
+	/*auto GameMode = Cast<APaintingGameMode>(GetWorld()->GetAuthGameMode());
+	if (!GameMode) return;
+
+	GameMode->Save();*/
+	Save();
+	WorldInfo.Game.AccessControl.ClearAuthDelegates(true);
+	UGameplayStatics::OpenLevel(GetWorld(), TEXT("WidgetMap"));
+
+}
+
 void APaintingGameMode::Load()
 {
 	UPainterSaveGame* Painting = UPainterSaveGame::Load(SlotName);
