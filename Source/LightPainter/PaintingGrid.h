@@ -36,4 +36,7 @@ private:
 		TSubclassOf<UPaintingGridCard> GridCardClass;
 	UPROPERTY(EditDefaultsOnly)
 		TSubclassOf<UPaginationDot> PaginationDotClass;
+
+	UPROPERTY(EditDefaultsOnly)
+		float PaginationDotPadding = 8.f;
 };
