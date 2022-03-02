@@ -34,9 +34,8 @@ void APaintingPicker::AddPainting()
 void APaintingPicker::ToggleDeleteMode()
 {
 	GEngine->AddOnScreenDebugMessage(-1, 10.f, FColor::Blue, "------------------ToggleDeleteMode");
-	UPaintingGrid* PaintingGridWidget = Cast<UPaintingGrid>(PaintingGrid->GetUserWidgetObject());
-	if (!PaintingGridWidget) return;
-	PaintingGridWidget->ClearPaintings();
+	if (!GetPaintingGrid()) return;
+	GetPaintingGrid()->ClearPaintings();
 }
 
 // Called when the game starts or when spawned
@@ -53,21 +52,31 @@ void APaintingPicker::BeginPlay()
 
 void APaintingPicker::RefreshSlots()
 {
-	UPaintingGrid* PaintingGridWidget = Cast<UPaintingGrid>(PaintingGrid->GetUserWidgetObject());
-	if (!PaintingGridWidget) return;
+	GEngine->AddOnScreenDebugMessage(-1, 10.f, FColor::Blue, FString::Printf(TEXT("------------------NUMBER OF PAGES: %d"), GetNumberOfPages()));
 
-	PaintingGridWidget->AddPaginationDot(true);
-	PaintingGridWidget->AddPaginationDot(false);
-	PaintingGridWidget->AddPaginationDot(false);
+	if (!GetPaintingGrid()) return;
 
-	PaintingGridWidget->ClearPaintings();
+	GetPaintingGrid()->AddPaginationDot(true);
+	GetPaintingGrid()->AddPaginationDot(false);
+	GetPaintingGrid()->AddPaginationDot(false);
+
+	GetPaintingGrid()->ClearPaintings();
 
 	int32 Index = 0;
 	for (FString Slot_Name : UPainterSaveGameIndex::Load()->GetSlotNames()) {
 		/*GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Red, FString::Printf(TEXT("Paintign name: %s"), *Slot_Name));*/
-		PaintingGridWidget->AddPainting(Index, Slot_Name);
+		GetPaintingGrid()->AddPainting(Index, Slot_Name);
 		++Index;
 	}
+}
+
+int32 APaintingPicker::GetNumberOfPages() const
+{
+	if (!GetPaintingGrid()) return 0;
+
+	int32 TotalNumberOfSlots = UPainterSaveGameIndex::Load()->GetSlotNames().Num();
+	int32 SlotsPerPage = GetPaintingGrid()->GetNumberOfSlots();
+	return FMath::CeilToInt ((float) TotalNumberOfSlots/ SlotsPerPage);
 }
 
 
