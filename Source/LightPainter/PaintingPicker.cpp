@@ -28,7 +28,7 @@ void APaintingPicker::AddPainting()
 	GEngine->AddOnScreenDebugMessage(-1, 10.f, FColor::Blue, "------------------AddPainting");
 	UPainterSaveGame::Create();
 
-	RefreshSlots();
+	Refresh();
 }
 
 void APaintingPicker::ToggleDeleteMode()
@@ -47,7 +47,7 @@ void APaintingPicker::BeginPlay()
 	if (ActionBardWidget) {
 		ActionBardWidget->SetParentPicker(this);
 	}
-	RefreshSlots();
+	Refresh();
 }
 
 void APaintingPicker::RefreshSlots()
@@ -56,9 +56,7 @@ void APaintingPicker::RefreshSlots()
 
 	if (!GetPaintingGrid()) return;
 
-	GetPaintingGrid()->AddPaginationDot(true);
-	GetPaintingGrid()->AddPaginationDot(false);
-	GetPaintingGrid()->AddPaginationDot(false);
+	
 
 	GetPaintingGrid()->ClearPaintings();
 
@@ -67,6 +65,15 @@ void APaintingPicker::RefreshSlots()
 		/*GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Red, FString::Printf(TEXT("Paintign name: %s"), *Slot_Name));*/
 		GetPaintingGrid()->AddPainting(Index, Slot_Name);
 		++Index;
+	}
+}
+
+void APaintingPicker::RefreshDots()
+{
+	if (!GetPaintingGrid()) return;
+	GetPaintingGrid()->ClearDots();
+	for (int32 i = 0; i < GetNumberOfPages(); i++) {
+		GetPaintingGrid()->AddPaginationDot(CurrentPage==i);
 	}
 }
 

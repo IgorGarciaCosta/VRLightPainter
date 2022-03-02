@@ -25,10 +25,14 @@ protected:
 	virtual void BeginPlay() override;
 
 private:
+	void Refresh(){ RefreshSlots(); RefreshDots();};
 	void RefreshSlots();
+	void RefreshDots();
 	int32 GetNumberOfPages() const;
 	UPaintingGrid* GetPaintingGrid() const {return Cast<UPaintingGrid>(PaintingGrid->GetUserWidgetObject()); };
 	
+
+	//components
 	UPROPERTY(EditAnywhere)
 		USceneComponent* Root;
 
@@ -36,4 +40,8 @@ private:
 		UWidgetComponent* PaintingGrid;
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, meta = (AllowPrivateAccess = "true"))
 		UWidgetComponent* ActionBar;
+
+	//state
+	UPROPERTY(EditAnywhere)
+	int32 CurrentPage=0;
 };

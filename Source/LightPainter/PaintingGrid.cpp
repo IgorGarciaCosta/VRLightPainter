@@ -44,6 +44,17 @@ void UPaintingGrid::ClearPaintings()
 	}
 }
 
+void UPaintingGrid::ClearDots()
+{
+	if (!PaginationDots) return;
+	PaginationDots->ClearChildren();
+	/*for (int32 i = 0; i < PaginationDots->GetChildrenCount(); i++) {
+		UHorizontalBoxSlot* DotSlot = Cast<UHorizontalBoxSlot>(PaginationDots->GetChildAt(i));
+		if (!DotSlot) continue;
+		DotSlot->ClearChildren();
+	}*/
+}
+
 int32 UPaintingGrid::GetNumberOfSlots()const
 {
 	return PaintingGrid->GetChildrenCount();
