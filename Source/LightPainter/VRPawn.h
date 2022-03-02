@@ -18,7 +18,7 @@ public:
 
 	void LeftTriggerPressed() { if (LeftHandController) LeftHandController->TriggerPressed(); }
 	void LeftTriggerReleased() { if (LeftHandController)LeftHandController->TriggerReleased();}
-
+	void PaginateRightAxisInput(float AxisValue);
 
 protected:
 	// Called when the game starts or when spawned
@@ -33,6 +33,8 @@ private:
 		TSubclassOf<class AHandControllerBase> LeftHandControllerClass;
 	UPROPERTY(EditDefaultsOnly)
 		TSubclassOf<class AHandControllerBase> RightHandControllerClass;
+	UPROPERTY(EditDefaultsOnly)
+		float PaginationThumstickThreshold = 0.9;
 
 	//components
 	UPROPERTY(VisibleAnywhere)
@@ -47,5 +49,7 @@ private:
 
 	UPROPERTY()
 		AHandControllerBase* RightHandController;
+
+	int32 LastPaginationOffset = 0;
 
 };

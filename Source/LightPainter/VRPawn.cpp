@@ -24,6 +24,20 @@ AVRPawn::AVRPawn()
 	Camera->SetupAttachment(VRRoot);
 }
 
+void AVRPawn::PaginateRightAxisInput(float AxisValue)
+{
+	int32 PaginationOffset = 0;
+	PaginationOffset += AxisValue>PaginationThumstickThreshold ? 1 : 0;
+	PaginationOffset += AxisValue < -PaginationThumstickThreshold ? -1 : 0;
+
+	if (PaginationOffset != LastPaginationOffset && PaginationOffset!=0) {
+		GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Red, FString::Printf(TEXT("Paintign name: %d"), PaginationOffset));
+
+	}
+	LastPaginationOffset = PaginationOffset;
+	
+}
+
 
 // Called when the game starts or when spawned
 void AVRPawn::BeginPlay()
@@ -53,10 +67,11 @@ void AVRPawn::BeginPlay()
 
 void AVRPawn::SetupPlayerInputComponent(UInputComponent* PlayerInputComponent)
 {
-	Super::SetupPlayerInputComponent(PlayerInputComponent);
+	Super::SetupPlayerInputComponent(PlayerInputComponent);//
 	PlayerInputComponent->BindAction(TEXT("LeftTrigger"), EInputEvent::IE_Pressed, this, &AVRPawn::LeftTriggerPressed);
 	PlayerInputComponent->BindAction(TEXT("LeftTrigger"), EInputEvent::IE_Released, this, &AVRPawn::LeftTriggerReleased);
 
+	PlayerInputComponent->BindAxis(TEXT("PaginateRight"), this, &AVRPawn::PaginateRightAxisInput);
 
 }
 
