@@ -58,19 +58,18 @@ void APaintingPicker::BeginPlay()
 
 void APaintingPicker::RefreshSlots()
 {
-	GEngine->AddOnScreenDebugMessage(-1, 10.f, FColor::Blue, FString::Printf(TEXT("------------------NUMBER OF PAGES: %d"), GetNumberOfPages()));
+	//GEngine->AddOnScreenDebugMessage(-1, 10.f, FColor::Blue, FString::Printf(TEXT("------------------NUMBER OF PAGES: %d"), GetNumberOfPages()));
 
 	if (!GetPaintingGrid()) return;
 
-	
-
 	GetPaintingGrid()->ClearPaintings();
 
-	int32 Index = 0;
-	for (FString Slot_Name : UPainterSaveGameIndex::Load()->GetSlotNames()) {
+	int StartOffset = CurrentPage* GetPaintingGrid()->GetNumberOfSlots();
+	auto SlotNames = UPainterSaveGameIndex::Load()->GetSlotNames();
+
+	for (int32 i = 0; i< GetPaintingGrid()->GetNumberOfSlots() && StartOffset+i <SlotNames.Num(); i++) {
 		/*GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Red, FString::Printf(TEXT("Paintign name: %s"), *Slot_Name));*/
-		GetPaintingGrid()->AddPainting(Index, Slot_Name);
-		++Index;
+		GetPaintingGrid()->AddPainting(i, SlotNames[StartOffset+i]);
 	}
 }
 

@@ -43,6 +43,5 @@ private:
 		UWidgetComponent* ActionBar;
 
 	//state
-	UPROPERTY(EditAnywhere)
 	int32 CurrentPage=0;
 };
