@@ -2,10 +2,12 @@
 
 
 #include "VRPawn.h"
+#include "PaintingPicker.h"
 #include "Components/SceneComponent.h"
 #include "Camera/CameraComponent.h"
 #include "PaintBrushHandController.h"
 #include "Engine/Engine.h"
+#include "EngineUtils.h"
 #include "PainterSaveGame.h"
 #include "PaintingGameMode.h"
 #include "Kismet/GameplayStatics.h"
@@ -31,11 +33,18 @@ void AVRPawn::PaginateRightAxisInput(float AxisValue)
 	PaginationOffset += AxisValue < -PaginationThumstickThreshold ? -1 : 0;
 
 	if (PaginationOffset != LastPaginationOffset && PaginationOffset!=0) {
-		GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Red, FString::Printf(TEXT("Paintign name: %d"), PaginationOffset));
-
+		//GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Red, FString::Printf(TEXT("Paintign name: %d"), PaginationOffset));
+		UpdateCurrentPage(PaginationOffset);
 	}
 	LastPaginationOffset = PaginationOffset;
 	
+}
+
+void AVRPawn::UpdateCurrentPage(int32 offset)
+{
+	for (TActorIterator<APaintingPicker>PaintingPickerItr(GetWorld()); PaintingPickerItr; ++PaintingPickerItr) {//iterates over every PaintingPicker in the world
+		PaintingPickerItr->UpdateCurrentPage(offset);
+	}
 }
 
 

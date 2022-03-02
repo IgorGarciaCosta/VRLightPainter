@@ -19,6 +19,7 @@ public:
 	void LeftTriggerPressed() { if (LeftHandController) LeftHandController->TriggerPressed(); }
 	void LeftTriggerReleased() { if (LeftHandController)LeftHandController->TriggerReleased();}
 	void PaginateRightAxisInput(float AxisValue);
+	void UpdateCurrentPage(int32 offset);
 
 protected:
 	// Called when the game starts or when spawned

@@ -38,6 +38,12 @@ void APaintingPicker::ToggleDeleteMode()
 	GetPaintingGrid()->ClearPaintings();
 }
 
+void APaintingPicker::UpdateCurrentPage(int32 offset)
+{
+	CurrentPage = FMath::Clamp(CurrentPage+offset, 0, GetNumberOfPages()-1);
+	Refresh();
+}
+
 // Called when the game starts or when spawned
 void APaintingPicker::BeginPlay()
 {

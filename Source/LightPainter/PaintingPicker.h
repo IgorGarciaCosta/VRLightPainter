@@ -19,6 +19,7 @@ public:
 
 	void AddPainting();
 	void ToggleDeleteMode();
+	void UpdateCurrentPage(int32 offset);
 
 protected:
 	// Called when the game starts or when spawned
